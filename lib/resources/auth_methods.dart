@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pictoria/resources/storage_methods.dart';
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -23,7 +24,7 @@ class AuthMethods {
       if(email.isNotEmpty || password.isNotEmpty || username.isNotEmpty || bio.isNotEmpty || file != null){
         //register user
         UserCredential cred = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-
+        String photoUrl = await StorageMethods().uploadImageToStorage("profilePics", file, false);
         //add user to our database
         await _firestore.collection('users').doc(cred.user!.uid).set({
           'username' : username,
@@ -32,6 +33,8 @@ class AuthMethods {
           'bio' : bio,
           'followers' : [],
           'following' : [],
+          'photoUrl' : photoUrl,
+          
         });
 
 

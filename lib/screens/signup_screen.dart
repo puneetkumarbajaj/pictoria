@@ -32,7 +32,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void selectImage() async{
-    Uint8List img = await pickImage(ImageSource.gallery);
+    Uint8List? img = await pickImage(ImageSource.gallery);
     setState(() {
       _image = img;
     });
@@ -41,6 +41,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 32),
@@ -55,11 +56,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               //logo
               Text("Pictoria",
                   style: GoogleFonts.pacifico(
-                    textStyle: TextStyle(fontSize: 70, color: Colors.white),
+                    textStyle: TextStyle(fontSize: 60, color: Colors.white),
                   )),
-              const SizedBox(
-                height: 64,
-              ),
 
               //image input
 
@@ -71,9 +69,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ):
                   CircleAvatar(
                     radius: 64,
-                    backgroundImage: NetworkImage(
-                      'https://t4.ftcdn.net/jpg/00/64/67/27/360_F_64672736_U5kpdGs9keUll8CRQ3p3YaEv2M6qkVY5.jpg'
-                    ),
+                    backgroundImage: AssetImage("assets/images/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg"),
                   ),
                   Positioned(
                       bottom: -10,
@@ -87,7 +83,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ],
               ),
               const SizedBox(
-                height: 24,
+                height: 5,
               ),
               //email
               TextFieldInput(
@@ -96,7 +92,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   textInputType: TextInputType.text),
 
               const SizedBox(
-                height: 24,
+                height: 5,
               ),
 
               TextFieldInput(
@@ -105,7 +101,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   textInputType: TextInputType.emailAddress),
 
               const SizedBox(
-                height: 24,
+                height: 5,
               ),
               TextFieldInput(
                 textEditingController: _passwordController,
@@ -114,7 +110,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 isPass: true,
               ),
               const SizedBox(
-                height: 24,
+                height: 5,
               ),
 
               TextFieldInput(
@@ -123,7 +119,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   textInputType: TextInputType.text),
 
               const SizedBox(
-                height: 24,
+                height: 5,
               ),
 
               //login button
@@ -134,7 +130,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       password: _passwordController.text,
                       username: _usernameController.text,
                       bio: _bioController.text,
-                      file: _image!,);
+                      file: _image!,
+                      );
                   print(res);
                 },
                 child: Container(
@@ -148,9 +145,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     color: blueColor,
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 12,
               ),
               Flexible(
                 child: Container(),
