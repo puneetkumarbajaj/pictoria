@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "547816512479",
+    "project_id": "pictor-f2ee5",
+    "storage_bucket": "pictor-f2ee5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547816512479:android:077500636f8798ba7e426a",
+        "android_client_info": {
+          "package_name": "com.example.pictoria"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYHvST6FDJ-jZOnEyGm-P6NjoH2_AyUc4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
