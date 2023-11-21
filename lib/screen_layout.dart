@@ -1,15 +1,95 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pictoria/screens/login_screen.dart';
-import 'package:pictoria/screens/signup_screen.dart';
+import 'package:pictoria/providers/user_provider.dart';
+import 'package:pictoria/utils/colors.dart';
+import 'package:provider/provider.dart';
+import 'models/user.dart' as model;
 
-class ScreenLayout extends StatelessWidget {
+class ScreenLayout extends StatefulWidget {
   const ScreenLayout({super.key});
+
+  @override
+  State<ScreenLayout> createState() => _ScreenLayoutState();
+}
+
+class _ScreenLayoutState extends State<ScreenLayout> {
+  @override
+  void initState() {
+    super.initState();
+    addData();
+    pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    pageController.dispose();
+  }
+
+  addData() async {
+    UserProvider _userProvider = Provider.of(context, listen: false);
+    await _userProvider.refreshUser();
+  }
+
+  int _page = 0;
+
+  late PageController pageController;
+
+  void navigationTapped(int page){
+    pageController.jumpToPage(page);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text("Test"),
+      body: PageView(
+        children: [
+          
+        ],
+        controller: pageController,
+        onPageChanged: onPageChanged,
+      ),
+      bottomNavigationBar:
+          CupertinoTabBar(backgroundColor: mobileBackgroundColor, items: [
+        BottomNavigationBarItem(
+            icon: Icon(
+              Icons.home,
+              color: _page == 0 ? primaryColor : secondaryColor,
+            ),
+            label: '',
+            backgroundColor: primaryColor),
+        BottomNavigationBarItem(
+            icon: Icon(
+              Icons.search,
+              color: _page == 1 ? primaryColor : secondaryColor,
+            ),
+            label: '',
+            backgroundColor: primaryColor),
+        BottomNavigationBarItem(
+            icon: Icon(
+              Icons.add_circle,
+              color: _page == 2 ? primaryColor : secondaryColor,
+            ),
+            label: '',
+            backgroundColor: primaryColor),
+        BottomNavigationBarItem(
+            icon: Icon(
+              Icons.favorite,
+              color: _page == 3 ? primaryColor : secondaryColor,
+            ),
+            label: '',
+            backgroundColor: primaryColor),
+        BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person,
+              color: _page == 4 ? primaryColor : secondaryColor,
+            ),
+            label: '',
+            backgroundColor: primaryColor),
+      ],
+      onTap: navigationTapped,
       ),
     );
   }
