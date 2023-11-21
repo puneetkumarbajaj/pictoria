@@ -90,13 +90,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: const Text("Not a member already?"),
+                    child: const Text("Not a member already? "),
                   ),
                   GestureDetector(
                     onTap: (){},
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 8),
-                      child: const Text("Sign up", style: TextStyle(fontWeight: FontWeight.bold),),
+                      child: const Text(" Sign up", style: TextStyle(fontWeight: FontWeight.bold),),
                     ),
                   ),
                 ],
