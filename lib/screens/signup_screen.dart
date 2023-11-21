@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pictoria/resources/auth_methods.dart';
+import 'package:pictoria/screen_layout.dart';
+import 'package:pictoria/screens/login_screen.dart';
 import 'package:pictoria/utils/colors.dart';
 import 'package:pictoria/utils/utils.dart';
 import 'package:pictoria/widgets/text_field_input.dart';
@@ -21,6 +23,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _bioController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
   Uint8List? _image;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -31,11 +34,37 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _usernameController.dispose();
   }
 
-  void selectImage() async{
+  void selectImage() async {
     Uint8List? img = await pickImage(ImageSource.gallery);
     setState(() {
       _image = img;
     });
+  }
+
+  void navigateToLogIn(){
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginScreen()));
+  }
+
+  void signUpUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String res = await AuthMethods().signUpUser(
+      email: _emailController.text,
+      password: _passwordController.text,
+      username: _usernameController.text,
+      bio: _bioController.text,
+      file: _image!,
+    );
+    setState(() {
+      _isLoading = false;
+    });
+    if(res != 'success'){
+      showSnackBar(context, res);
+    }
+    else{
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => ScreenLayout()));
+    }
   }
 
   @override
@@ -63,14 +92,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
               Stack(
                 children: [
-                  _image!=null?CircleAvatar(
-                    radius: 64,
-                    backgroundImage: MemoryImage(_image!),
-                  ):
-                  CircleAvatar(
-                    radius: 64,
-                    backgroundImage: AssetImage("assets/images/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg"),
-                  ),
+                  _image != null
+                      ? CircleAvatar(
+                          radius: 64,
+                          backgroundImage: MemoryImage(_image!),
+                        )
+                      : CircleAvatar(
+                          radius: 64,
+                          backgroundImage: AssetImage(
+                              "assets/images/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg"),
+                        ),
                   Positioned(
                       bottom: -10,
                       left: 80,
@@ -124,18 +155,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
               //login button
               InkWell(
-                onTap: () async {
-                  String res = await AuthMethods().signUpUser(
-                      email: _emailController.text,
-                      password: _passwordController.text,
-                      username: _usernameController.text,
-                      bio: _bioController.text,
-                      file: _image!,
-                      );
-                  print(res);
-                },
+                onTap: signUpUser,
                 child: Container(
-                  child: const Text("Sign Up"),
+                  child : _isLoading ? const Center(child: CircularProgressIndicator(color: primaryColor,),) : const Text("Sign Up"),
                   width: double.infinity,
                   alignment: Alignment.center,
                   padding: const EdgeInsets.symmetric(vertical: 12),
@@ -160,7 +182,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: const Text("A member already? "),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: navigateToLogIn,
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: const Text(

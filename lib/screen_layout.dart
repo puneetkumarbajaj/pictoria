@@ -8,7 +8,9 @@ class ScreenLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SignUpScreen(),
+      body: Center(
+        child: Text("Test"),
+      ),
     );
   }
 }
