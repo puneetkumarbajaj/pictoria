@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pictoria/providers/user_provider.dart';
+import 'package:pictoria/screens/add_post_screen.dart';
 import 'package:pictoria/utils/colors.dart';
 import 'package:provider/provider.dart';
 import 'models/user.dart' as model;
@@ -15,6 +16,12 @@ class ScreenLayout extends StatefulWidget {
 }
 
 class _ScreenLayoutState extends State<ScreenLayout> {
+
+
+  int _page = 0;
+
+  late PageController pageController;
+
   @override
   void initState() {
     super.initState();
@@ -33,12 +40,14 @@ class _ScreenLayoutState extends State<ScreenLayout> {
     await _userProvider.refreshUser();
   }
 
-  int _page = 0;
-
-  late PageController pageController;
-
   void navigationTapped(int page){
     pageController.jumpToPage(page);
+  }
+
+  void onPageChanged(int page){
+    setState(() {
+      _page = page;
+    });
   }
 
   @override
@@ -46,10 +55,15 @@ class _ScreenLayoutState extends State<ScreenLayout> {
     return Scaffold(
       body: PageView(
         children: [
-          
+          Text('feed'),
+          Text('search'),
+          AddPost(),
+          Text('notif'),
+          Text('profile'),
         ],
         controller: pageController,
         onPageChanged: onPageChanged,
+        physics: NeverScrollableScrollPhysics(),
       ),
       bottomNavigationBar:
           CupertinoTabBar(backgroundColor: mobileBackgroundColor, items: [
