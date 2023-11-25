@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pictoria/providers/user_provider.dart';
 import 'package:pictoria/screens/add_post_screen.dart';
+import 'package:pictoria/screens/feed_screen.dart';
 import 'package:pictoria/utils/colors.dart';
 import 'package:provider/provider.dart';
 import 'models/user.dart' as model;
@@ -55,7 +56,7 @@ class _ScreenLayoutState extends State<ScreenLayout> {
     return Scaffold(
       body: PageView(
         children: [
-          Text('feed'),
+          FeedScreen(),
           Text('search'),
           AddPost(),
           Text('notif'),

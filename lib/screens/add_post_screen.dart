@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pictoria/models/user.dart';
 import 'package:pictoria/providers/user_provider.dart';
+import 'package:pictoria/resources/firestore_methods.dart';
 import 'package:pictoria/utils/colors.dart';
 import 'package:pictoria/utils/utils.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,35 @@ class AddPost extends StatefulWidget {
 class _AddPostState extends State<AddPost> {
   Uint8List? _file;
   final TextEditingController _descriptionController = TextEditingController();
+  bool _isLoading = false;
+
+  void postImage(
+    String uid,
+    String username,
+    String profImage,
+  )async{
+    setState(() {
+      _isLoading = true;
+    });
+    try {
+      String res = await FirestoreMethods().uploadPost(_descriptionController.text, _file!, uid, username, profImage,);
+      if(res == 'success'){
+        setState(() {
+          _isLoading = false; 
+        });
+        showSnackBar(context, 'Posted!');
+        clearImage();
+      }
+      else{
+        setState(() {
+          _isLoading = false; 
+        });
+        showSnackBar(context, res);
+      }
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
 
   _selectImage(BuildContext context) async {
 
@@ -64,6 +94,18 @@ class _AddPostState extends State<AddPost> {
         });
   }
 
+  void clearImage(){
+    setState(() {
+      _file = null;
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _descriptionController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final User _user = Provider.of<UserProvider>(context).getUser;
@@ -79,13 +121,13 @@ class _AddPostState extends State<AddPost> {
               backgroundColor: mobileBackgroundColor,
               leading: IconButton(
                 icon: Icon(Icons.arrow_back),
-                onPressed: () {},
+                onPressed: clearImage,
               ),
               title: const Text('Post to'),
               centerTitle: false,
               actions: [
                 TextButton(
-                    onPressed: () {},
+                    onPressed: () => postImage(_user.uid, _user.username, _user.photoUrl),
                     child: const Text(
                       'Post',
                       style: TextStyle(
@@ -98,6 +140,8 @@ class _AddPostState extends State<AddPost> {
             ),
             body: Column(
               children: [
+                _isLoading? const LinearProgressIndicator() : Padding(padding: EdgeInsets.only(top: 0)),
+                const Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
