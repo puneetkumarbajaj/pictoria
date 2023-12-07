@@ -10,9 +10,10 @@ class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<model.User> getUserDetails() async{
+  Future<model.User> getUserDetails() async {
     User currentUser = _auth.currentUser!;
-    DocumentSnapshot snap = await _firestore.collection('users').doc(currentUser.uid).get();
+    DocumentSnapshot snap =
+        await _firestore.collection('users').doc(currentUser.uid).get();
     return model.User.fromSnap(snap);
   }
 
@@ -46,7 +47,9 @@ class AuthMethods {
           following: [],
           photoUrl: photoUrl,
         );
-        await _firestore.collection('users').doc(cred.user!.uid).set(user.toJson(),);
+        await _firestore.collection('users').doc(cred.user!.uid).set(
+              user.toJson(),
+            );
 
         res = 'success';
       }
@@ -67,12 +70,16 @@ class AuthMethods {
         await _auth.signInWithEmailAndPassword(
             email: email, password: password);
         res = "success";
-      } else{
+      } else {
         res = "Please fill all the fields";
       }
     } catch (err) {
       res = err.toString();
     }
     return res;
+  }
+
+  Future<void> signOut() async {
+    await _auth.signOut();
   }
 }

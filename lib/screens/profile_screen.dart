@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pictoria/resources/auth_methods.dart';
 import 'package:pictoria/resources/firestore_methods.dart';
+import 'package:pictoria/screens/login_screen.dart';
 import 'package:pictoria/utils/colors.dart';
 import 'package:pictoria/utils/utils.dart';
 import 'package:pictoria/widgets/follow_button.dart';
@@ -70,6 +72,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
               backgroundColor: mobileBackgroundColor,
               title: Text(userData['username']),
               centerTitle: false,
+              actions: [
+                IconButton(
+                    onPressed: () async {
+                      await AuthMethods().signOut();
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const LoginScreen()));
+                    },
+                    icon: Icon(Icons.logout))
+              ],
             ),
             body: ListView(
               children: [
@@ -124,6 +135,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                           FirebaseAuth.instance
                                                               .currentUser!.uid,
                                                           userData['uid']);
+                                                  setState(() {
+                                                    isFollowing = false;
+                                                    followers--;
+                                                  });
                                                 },
                                               )
                                             : FollowButton(
@@ -137,6 +152,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                           FirebaseAuth.instance
                                                               .currentUser!.uid,
                                                           userData['uid']);
+                                                  setState(() {
+                                                    isFollowing = true;
+                                                    followers++;
+                                                  });
                                                 },
                                               )
                                   ],
