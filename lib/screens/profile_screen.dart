@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pictoria/resources/auth_methods.dart';
 import 'package:pictoria/resources/firestore_methods.dart';
+import 'package:pictoria/screens/editProfile_screen.dart';
 import 'package:pictoria/screens/login_screen.dart';
 import 'package:pictoria/utils/colors.dart';
 import 'package:pictoria/utils/utils.dart';
@@ -121,7 +122,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             borderColor: Colors.grey,
                                             text: 'Edit Profile',
                                             textColor: primaryColor,
-                                            function: () {},
+                                            function: () {
+                                              Navigator.of(context)
+                                                  .push(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EditProfile()),
+                                              )
+                                                  .then((value) {
+                                                if (value == true) {
+                                                  setState(() {
+                                                    getData();
+                                                  });
+                                                }
+                                              });
+                                            },
                                           )
                                         : isFollowing
                                             ? FollowButton(

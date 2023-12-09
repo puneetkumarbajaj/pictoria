@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pictoria/screens/messages_screen.dart';
 import 'package:pictoria/utils/colors.dart';
 import 'package:pictoria/widgets/post_card.dart';
 
@@ -20,7 +21,10 @@ class FeedScreen extends StatelessWidget {
             )),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => MessagesScreen()));
+            },
             icon: const Icon(
               Icons.messenger_outline,
             ),

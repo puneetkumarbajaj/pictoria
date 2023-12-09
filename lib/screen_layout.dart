@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:pictoria/providers/user_provider.dart';
 import 'package:pictoria/screens/add_post_screen.dart';
 import 'package:pictoria/screens/feed_screen.dart';
+import 'package:pictoria/screens/notifications_screen.dart';
 import 'package:pictoria/screens/profile_screen.dart';
 import 'package:pictoria/screens/search_screen.dart';
 import 'package:pictoria/utils/colors.dart';
@@ -59,7 +60,7 @@ class _ScreenLayoutState extends State<ScreenLayout> {
           FeedScreen(),
           SearchScreen(),
           AddPost(),
-          Text('notif'),
+          NotificationScreen(),
           ProfileScreen(
             uid: FirebaseAuth.instance.currentUser!.uid,
           ),
