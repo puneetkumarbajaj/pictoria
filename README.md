@@ -1,8 +1,11 @@
-#Pictoria
-##Introduction
+# Pictoria
+
+## Introduction
+
 Welcome to Pictoria - a vibrant and engaging social media platform inspired by the dynamic world of Instagram. Pictoria replicates the core essence of photo-sharing and social interaction that has captivated millions, providing users with a familiar yet fresh experience.
 
-##Features
+## Features
+
 Pictoria encompasses a wide array of features that are synonymous with the quintessential Instagram experience:
 
 Image Posting: At the heart of Pictoria is our robust image posting functionality. Share your moments, stories, and artistic expressions with ease.
@@ -19,9 +22,11 @@ Search Functionality: Navigate through Pictoria with ease using our comprehensiv
 
 User Profiles: Create and customize your profile to express your unique identity. Showcase your posts, bio, and more to the Pictoria community.
 
-##Aim
+## Aim
+
 My goal with Pictoria is to emulate the Instagram experience, providing users with a familiar platform packed with all the features they love, while also exploring new avenues for social media interaction.
 
-##Contributions
+## Contributions
+
 I welcome contributions and suggestions to make Pictoria a more enriching and enjoyable experience for everyone. Feel free to fork, submit pull requests, or open issues for any improvements or ideas you have.
 
